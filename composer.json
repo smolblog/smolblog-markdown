@@ -10,7 +10,7 @@
     "phpunit/phpunit": "^9.5",
     "squizlabs/php_codesniffer": "^3.7"
   },
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "autoload": {
     "psr-4": {
       "Smolblog\\Markdown\\": "src/"
