@@ -86,4 +86,62 @@ The markup:
 
 ## Using this library
 
-TBD...
+~~Install it using [composer]: `composer require smolblog/smolblog-markdown`~~ _not on packagist yet ^_^;;_
+
+[composer]: https://getcomposer.org/
+
+### Create a parser without oEmbed
+
+```php
+use Smolblog\Markdown\SmolblogMarkdown;
+
+//...
+
+$md = new SmolblogMarkdown();
+```
+
+This will create the parser **with no oEmbed support.** Embed directives will show as normal links as seen above.
+
+### Create a parser with oEmbed
+
+You will need the [Embed] library installed (run `composer require embed/embed`). Support for other libraries coming
+soon!
+
+[embed]: https://github.com/oscarotero/Embed
+
+```php
+use Smolblog\Markdown\{SmolblogMarkdown, DefaultEmbedProvider};
+
+//...
+
+$md = new SmolblogMarkdown(embedProvider: new DefaultEmbedProvider());
+```
+
+### Custom oEmbed provider
+
+If you have a different oEmbed library you want to use, you can pass in anything that implements the `EmbedProvider`
+interface:
+
+```php
+interface EmbedProvider {
+	public function getEmbedCodeFor(string $url): ?string;
+}
+```
+
+### Parsing Markdown
+
+Once you have the parser instantiated, it's as easy as:
+
+```php
+$md->parse($markdown_text);
+```
+
+This library is built on [cebe/markdown][cbmd], and more detailed usage can be found in its documentation.
+
+[cbmd]: https://github.com/cebe/markdown
+
+## Acknowledgements
+
+- Based on [cebe/markdown][cbmd]
+- Syntax feedback provided by [Chris][v_] and [Logan][llbbl]
+- Built by Evan Hildreth for the Smolblog project
