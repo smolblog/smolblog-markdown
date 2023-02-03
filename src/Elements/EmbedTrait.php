@@ -12,7 +12,7 @@ trait EmbedTrait {
 	 */
 	protected ?EmbedProvider $embedProvider = null;
 
-	public const EMBED_PATTERN = '/^:\[(.+)\]\((.+)\)$/';
+	private static $EMBED_PATTERN = '/^:\[(.+)\]\((.+)\)$/';
 
 	/**
 	 * Identify an Embed directive.
@@ -21,7 +21,7 @@ trait EmbedTrait {
 	 * @return boolean
 	 */
 	protected function identifyEmbed(string $line) {
-		return preg_match(static::EMBED_PATTERN, $line) === 1;
+		return preg_match(static::$EMBED_PATTERN, $line) === 1;
 	}
 
 	/**
@@ -33,7 +33,7 @@ trait EmbedTrait {
 	 */
 	protected function consumeEmbed(array $lines, int $current) {
 		$matches = array();
-		preg_match(static::EMBED_PATTERN, $lines[$current], $matches);
+		preg_match(static::$EMBED_PATTERN, $lines[$current], $matches);
 
 		return [
 			[
