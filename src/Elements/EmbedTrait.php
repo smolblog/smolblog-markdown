@@ -12,6 +12,11 @@ trait EmbedTrait {
 	 */
 	protected ?EmbedProvider $embedProvider = null;
 
+	/**
+	 * The regex pattern used to identify embed blocks.
+	 *
+	 * @var string
+	 */
 	private static $EMBED_PATTERN = '/^:\[(.+)\]\((.+)\)$/';
 
 	/**
