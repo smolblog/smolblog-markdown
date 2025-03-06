@@ -2,7 +2,7 @@
 
 namespace Smolblog\Markdown;
 
-use PHPUnit\Framework\TestCase;
+use Smolblog\Test\TestCase;
 
 final class SmolblogMarkdownTest extends TestCase {
 	private EmbedProvider $embed;
@@ -99,6 +99,43 @@ final class SmolblogMarkdownTest extends TestCase {
 		<p>You know what a really cool video is?</p>
 		<iframe src="https://embed.youtube.com/watch?v=rTga41r3a4s"></iframe>
 		<p>Rather unexpected, innit?</p>
+
+		EOD;
+
+		$this->assertEquals($expected, $this->md->parse($test));
+	}
+
+	public function testCustomHandlersAreUsedIfPresent() {
+		$sampleHandler = fn($block) => '<div>'.$block['content']."</div>\n";
+		$this->md->addCustomCodeHandler('smol', $sampleHandler);
+
+		$test = <<<EOD
+		# Code test #
+
+		I've got three looks.
+
+		    Indented code block.
+
+		```javascript
+		const answer = 42;
+		```
+
+		```smol
+		The smollest of blogs.
+		```
+
+		And that's it.
+		EOD;
+
+		$expected = <<<EOD
+		<h1>Code test</h1>
+		<p>I've got three looks.</p>
+		<pre><code>Indented code block.
+		</code></pre>
+		<pre><code class="language-javascript">const answer = 42;
+		</code></pre>
+		<div>The smollest of blogs.</div>
+		<p>And that's it.</p>
 
 		EOD;
 

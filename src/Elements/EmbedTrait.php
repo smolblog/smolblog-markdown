@@ -13,11 +13,11 @@ trait EmbedTrait {
 	protected ?EmbedProvider $embedProvider = null;
 
 	/**
-	 * The regex pattern used to identify embed blocks.
+	 * Store the regex that identifies an embed directive.
 	 *
 	 * @var string
 	 */
-	private static $EMBED_PATTERN = '/^:\[(.+)\]\((.+)\)$/';
+	private static string $embedPattern = '/^:\[(.+)\]\((.+)\)$/';
 
 	/**
 	 * Identify an Embed directive.
@@ -26,7 +26,7 @@ trait EmbedTrait {
 	 * @return boolean
 	 */
 	protected function identifyEmbed(string $line) {
-		return preg_match(static::$EMBED_PATTERN, $line) === 1;
+		return preg_match(static::$embedPattern, $line) === 1; // @codeCoverageIgnore
 	}
 
 	/**
@@ -38,7 +38,7 @@ trait EmbedTrait {
 	 */
 	protected function consumeEmbed(array $lines, int $current) {
 		$matches = array();
-		preg_match(static::$EMBED_PATTERN, $lines[$current], $matches);
+		preg_match(static::$embedPattern, $lines[$current], $matches);
 
 		return [
 			[
